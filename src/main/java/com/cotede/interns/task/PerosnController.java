@@ -18,7 +18,7 @@ public class  PerosnController {
     public ResponseEntity<Map<String, Object>> getPerson(@RequestParam(required = false) int id , @RequestHeader HttpHeaders headers){
        Optional<Person> person = personList.stream().filter(p -> p.getId()==id).findFirst();
        if(!person.isPresent()){
-           return ResponseEntity.notFound().build();
+           return new ResponseEntity<>(createResponse("Fail","ID NOT FOUND",null),HttpStatus.NOT_FOUND);
        }
        Map<String, Object> data = new HashMap<>();
        data.put("person", person.get());
@@ -27,90 +27,52 @@ public class  PerosnController {
    @PostMapping
    public ResponseEntity<Map<String, Object>> addPerson(@RequestBody Person person){
       if(person.getId()==0||person.getName()==null||person.getAddress()==null || person.getGender()==null||person.getAge()<=0){
-         return ResponseEntity.badRequest().build();
+         return new ResponseEntity<>(createResponse("Fail","ID NOT FOUND",null),HttpStatus.NOT_FOUND);
       }
       personList.add(person);
       return new ResponseEntity<>(createResponse("Sucess",null,person), HttpStatus.CREATED);
    }
 
 
+   @PutMapping("/{id}")
+   public ResponseEntity<Map<String, Object>> updatePerson(
+           @PathVariable int id,
+           @RequestBody Person updatedPerson
+   ) {
+      Optional<Person> existingPersonOptional = personList.stream()
+              .filter(p -> p.getId() == id)
+              .findFirst();
+
+      if (!existingPersonOptional.isPresent()) {
+         return new ResponseEntity<>(createResponse("Fail","ID NOT FOUND",null),HttpStatus.NOT_FOUND);
+      }
+
+      Person existingPerson = existingPersonOptional.get();
+
+      // Update the fields of the existing person with the values from updatedPerson
+      existingPerson.setName(updatedPerson.getName());
+      existingPerson.setAge(updatedPerson.getAge());
+      existingPerson.setGender(updatedPerson.getGender());
+      existingPerson.setAddress(updatedPerson.getAddress());
+
+      // Respond with updated person details
+      return ResponseEntity.ok(createResponse("Success", null, existingPerson));
+   }
+
+
+   @DeleteMapping
+   public ResponseEntity<Map<String, Object>> deletePerson(@RequestParam int id){
+      Optional<Person> personOpt = personList.stream().filter(p -> p.getId() == id).findFirst();
+      if(!personOpt.isPresent()){
+         return new ResponseEntity<>(createResponse("Fail","ID NOT FOUND",null),HttpStatus.NOT_FOUND);
+
+      }
+      personList.remove(personOpt.get());
+      return ResponseEntity.ok(createResponse("Success", "Delete Success", personOpt));
+   }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//   @PutMapping
-//   public ResponseEntity<Map<String, Object>> updatePerson(@RequestBody Person person){
-//      if(person.getId()==0){
-//         return new ResponseEntity<>(createResponse("Fail","Missing id",null), HttpStatus.BAD_REQUEST);
-//      }
-//
-//      Optional<Person> personOptional = personList.stream().filter(p -> p.getId()==person.getId()).findFirst();
-//      if(!personOptional.isPresent()){
-//         return new ResponseEntity<>(createResponse("Fail","Missing id",null), HttpStatus.BAD_REQUEST;
-//      }
-//
-//      personOptional.get().setName(person.getName());
-//      personOptional.get().setAddress(person.getAddress());
-//      personOptional.get().setGender(person.getGender());
-//      personOptional.get().setAge(person.getAge());
-//      personList.add(personOptional.get());
-//
-//   }
    private Map<String,Object> createResponse(String status, String message,Object data) {
       Map<String,Object> response = new HashMap<>();
       response.put("status", status);
