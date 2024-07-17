@@ -1,16 +1,11 @@
-package com.example.firstone;
+package com.cotede.interns.task;
 
 import java.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.*;
 
 @RestController
 @RequestMapping("/api/persons")
@@ -38,24 +33,84 @@ public class  PerosnController {
       return new ResponseEntity<>(createResponse("Sucess",null,person), HttpStatus.CREATED);
    }
 
-   @PutMapping
-   public ResponseEntity<Map<String, Object>> updatePerson(@RequestBody Person person){
-      if(person.getId()==0){
-         return new ResponseEntity<>(createResponse("Fail","Missing id",null), HttpStatus.BAD_REQUEST);
-      }
 
-      Optional<Person> personOptional = personList.stream().filter(p -> p.getId()==person.getId()).findFirst();
-      if(!personOptional.isPresent()){
-         return new ResponseEntity<>(createResponse("Fail","Missing id",null), HttpStatus.BAD_REQUEST;
-      }
 
-      personOptional.get().setName(person.getName());
-      personOptional.get().setAddress(person.getAddress());
-      personOptional.get().setGender(person.getGender());
-      personOptional.get().setAge(person.getAge());
-      personList.add(personOptional.get());
 
-   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//   @PutMapping
+//   public ResponseEntity<Map<String, Object>> updatePerson(@RequestBody Person person){
+//      if(person.getId()==0){
+//         return new ResponseEntity<>(createResponse("Fail","Missing id",null), HttpStatus.BAD_REQUEST);
+//      }
+//
+//      Optional<Person> personOptional = personList.stream().filter(p -> p.getId()==person.getId()).findFirst();
+//      if(!personOptional.isPresent()){
+//         return new ResponseEntity<>(createResponse("Fail","Missing id",null), HttpStatus.BAD_REQUEST;
+//      }
+//
+//      personOptional.get().setName(person.getName());
+//      personOptional.get().setAddress(person.getAddress());
+//      personOptional.get().setGender(person.getGender());
+//      personOptional.get().setAge(person.getAge());
+//      personList.add(personOptional.get());
+//
+//   }
    private Map<String,Object> createResponse(String status, String message,Object data) {
       Map<String,Object> response = new HashMap<>();
       response.put("status", status);

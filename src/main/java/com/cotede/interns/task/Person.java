@@ -1,4 +1,4 @@
-package com.example.firstone;
+package com.cotede.interns.task;
 // Person Class
 public class Person {
   private int id ;
