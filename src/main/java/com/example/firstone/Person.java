@@ -1,14 +1,50 @@
 package com.example.firstone;
 // Person Class
 public class Person {
-    private String name;
-    private int age;
-    private String address;
-//   Constructor for all var
-    public Person(String name, int age, String address) {
-        this.name = name;
+  private int id ;
+  private String name ;
+  private int age ;
+  private String gender;
+  private String Address;
+
+    public Person(int id, String address, String gender, int age, String name) {
+        this.id = id;
+        Address = address;
+        this.gender = gender;
         this.age = age;
-        this.address = address;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getName() {
@@ -19,28 +55,14 @@ public class Person {
         this.name = name;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
     @Override
     public String toString() {
         return "Person{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
-                ", address='" + address + '\'' +
+                ", gender='" + gender + '\'' +
+                ", Address='" + Address + '\'' +
                 '}';
     }
 }
