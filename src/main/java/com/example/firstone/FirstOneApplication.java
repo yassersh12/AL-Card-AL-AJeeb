@@ -14,6 +14,7 @@ public class FirstOneApplication {
     public static void main(String[] args) {
         SpringApplication.run(FirstOneApplication.class, args);
 
+
     }
 
 }
