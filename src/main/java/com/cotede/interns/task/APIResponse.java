@@ -1,5 +1,7 @@
 package com.cotede.interns.task;
 
+import org.springframework.http.HttpStatus;
+
 public class APIResponse<T> {
     private int status;
     private String message;
@@ -11,7 +13,6 @@ public class APIResponse<T> {
         this.data = data;
     }
 
-    // Getters and Setters
     public int getStatus() {
         return status;
     }

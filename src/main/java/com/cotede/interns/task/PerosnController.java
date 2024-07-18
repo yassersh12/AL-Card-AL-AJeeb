@@ -1,11 +1,12 @@
 package com.cotede.interns.task;
 
-import java.util.*;
-
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/persons")
@@ -13,7 +14,7 @@ public class  PerosnController {
     private List<Person> personList = new ArrayList<>();
     // GET method that returns the object based on the id in the path as a parameter e.g ?id=1
     @GetMapping
-    public ResponseEntity<APIResponse <?>> getPerson(@RequestParam(required = false) int id) {
+    public ResponseEntity<APIResponse<?>> getPerson(@RequestParam(required = false) int id) {
         Optional<Person> person = personList.stream().filter(p -> p.getId() == id).findFirst();
 
         if (person.isEmpty()) {
@@ -26,7 +27,10 @@ public class  PerosnController {
 
     // POST Mapping accepts the data from the request body
     @PostMapping
-    public ResponseEntity<APIResponse<?>> addPerson(@RequestBody Person person) {
+    public ResponseEntity<APIResponse<?>> addPerson(@RequestBody Person person,
+                                                    @RequestHeader(value = "Content-Length", required = false) String contentLength) {
+        System.out.println("Content-Length : " + contentLength);
+
         for (Person p : personList) {
             if (p.getId() == person.getId()) {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
