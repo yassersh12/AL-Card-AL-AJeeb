@@ -9,6 +9,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/persons")
 public class  PerosnController {
+    // ArrayList to store persons temporary
     private List<Person> personList = new ArrayList<>();
 
 
@@ -65,6 +66,4 @@ public class  PerosnController {
         personList.remove(personOpt.get());
         return new APIResponse<>( "Person deleted", null,HttpStatus.OK);
     }
-
-
 }
