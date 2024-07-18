@@ -10,88 +10,73 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/persons")
 public class  PerosnController {
-   private List<Person>  personList = new ArrayList<>();
+    private List<Person> personList = new ArrayList<>();
+    // GET method that returns the object based on the id in the path as a parameter e.g ?id=1
+    @GetMapping
+    public ResponseEntity<APIResponse <?>> getPerson(@RequestParam(required = false) int id) {
+        Optional<Person> person = personList.stream().filter(p -> p.getId() == id).findFirst();
 
-
-    // GET method that return the object based on the id in  the path as a parameter e.g ?id=1
-   @GetMapping
-   public ResponseEntity<Object> getPerson(
-           @RequestParam(required = false) int id)
-          {
-       Optional<Person> person = personList.stream().filter(p -> p.getId() == id).findFirst();
-    //Check if there is person exit
-       if (person.isEmpty()) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person with ID " + id + " not found");
-       }
-    //return the person
-       return ResponseEntity.ok(person.get());
-   }
-
-
-    @PostMapping
-    //   POST Mapping accept the data from the body
-   public ResponseEntity<Object> addPerson(@RequestBody Person person) {
-    // Check if person is already exists
-    for (Person p : personList) {
-        if (p.getId() == person.getId()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Person with ID " + person.getId() + " already exists");
+        if (person.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new APIResponse<>(HttpStatus.NOT_FOUND.value(), "Person not found", null));
         }
-    }
-    // If person does not exist then add the person
-    if (person.getId() == 0 || person.getName() == null || person.getAddress() == null || person.getGender() == null || person.getAge() <= 0) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid person data");
+
+        return ResponseEntity.ok(new APIResponse<>(HttpStatus.OK.value(), "Person found", person.get()));
     }
 
-    // add person to the list
-    personList.add(person);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
-}
+    // POST Mapping accepts the data from the request body
+    @PostMapping
+    public ResponseEntity<APIResponse<?>> addPerson(@RequestBody Person person) {
+        for (Person p : personList) {
+            if (p.getId() == person.getId()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(new APIResponse<>(HttpStatus.CONFLICT.value(), "Person with ID " + person.getId() + " already exists", null));
+            }
+        }
 
+        if (person.getId() == 0 || person.getName() == null || person.getAddress() == null || person.getGender() == null || person.getAge() <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new APIResponse<>(HttpStatus.BAD_REQUEST.value(), "Invalid person data", null));
+        }
 
+        personList.add(person);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new APIResponse<>(HttpStatus.CREATED.value(), "Person created", null));
+    }
 
+    // PUT Mapping to update existing person
+    @PutMapping
+    public ResponseEntity<APIResponse<?>> updatePerson(@RequestParam int id, @RequestBody Person updatedPerson) {
+        Optional<Person> existingPersonOptional = personList.stream().filter(p -> p.getId() == id).findFirst();
 
-// UPDATE to new Value
-   @PutMapping
-   public ResponseEntity<Object> updatePerson(@RequestParam int id, @RequestBody Person updatedPerson) {
-       // if it is exists
-       Optional<Person> existingPersonOptional = personList.stream()
-               .filter(p -> p.getId() == id)
-               .findFirst();
+        if (!existingPersonOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new APIResponse<>(HttpStatus.NOT_FOUND.value(), "Person with ID " + id + " not found", null));
+        }
 
-       if (!existingPersonOptional.isPresent()) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person with ID " + id + " not found");
-       }
+        Person existingPerson = existingPersonOptional.get();
+        existingPerson.setName(updatedPerson.getName());
+        existingPerson.setAge(updatedPerson.getAge());
+        existingPerson.setGender(updatedPerson.getGender());
+        existingPerson.setAddress(updatedPerson.getAddress());
 
-       // Update to new value
-       Person existingPerson = existingPersonOptional.get();
-       existingPerson.setName(updatedPerson.getName());
-       existingPerson.setAge(updatedPerson.getAge());
-       existingPerson.setGender(updatedPerson.getGender());
-       existingPerson.setAddress(updatedPerson.getAddress());
+        return ResponseEntity.ok(new APIResponse<>(HttpStatus.OK.value(), "Person updated", existingPerson));
+    }
 
-       // Return Person
-       return ResponseEntity.ok(existingPerson);
-   }
+    // DELETE Mapping to delete a person
+    @DeleteMapping
+    public ResponseEntity<APIResponse<?>> deletePerson(@RequestParam int id) {
+        Optional<Person> personOpt = personList.stream().filter(p -> p.getId() == id).findFirst();
 
-// DELETE PERSON
-   @DeleteMapping
-   public ResponseEntity<Object> deletePerson(@RequestParam int id) {
-       // Find the person in the list
-       Optional<Person> personOpt = personList.stream()
-               .filter(p -> p.getId() == id)
-               .findFirst();
+        if (!personOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new APIResponse<>(HttpStatus.NOT_FOUND.value(), "Person with ID " + id + " not found", null));
+        }
 
-       if (!personOpt.isPresent()) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person with ID " + id + " not found");
-       }
+        personList.remove(personOpt.get());
 
-       // Remove the person
-       personList.remove(personOpt.get());
-
-       // Return the response that delete success
-       return ResponseEntity.ok("Person with ID " + id + " deleted successfully");
-   }
-
+        return ResponseEntity.ok(new APIResponse<>(HttpStatus.OK.value(), "Person deleted", null));
+    }
 
 
 }
