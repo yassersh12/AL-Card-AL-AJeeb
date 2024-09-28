@@ -28,7 +28,7 @@ public class Game {
     @JoinColumn(name = "player2_id")
     private User player2;
 
-    private String status;
+    private GameStatus status;
     private String battleDescription;
 
     @ManyToOne

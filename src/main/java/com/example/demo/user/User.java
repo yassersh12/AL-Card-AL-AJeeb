@@ -25,7 +25,7 @@ public class User {
 
     private String username;
     private String password;
-    private String role;
+    private UserRole role;
 
     @OneToMany(mappedBy = "player1")
     private List<Game> gamesAsPlayer1;
