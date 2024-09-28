@@ -1,1 +1,17 @@
-spring.application.name=demo
+server:
+  port: 8000
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  application:
+    name: cards-dev
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/random_fights
+    username: admin
+    password: yoink
+
+
+

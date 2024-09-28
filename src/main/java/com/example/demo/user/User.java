@@ -20,8 +20,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    private int score;
-    private int health = 100;
+    private Long score;
+    private Long health = 100l;
 
     private String username;
     private String password;

@@ -2,6 +2,7 @@ package com.example.demo.userAttack;
 
 import com.example.demo.card.Card;
 import com.example.demo.game.Game;
+import com.example.demo.round.Round;
 import com.example.demo.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,11 +29,13 @@ public class UserAttack {
     private User user;
 
     private String attackDescription;
-    private int damage;
-    private int roundNumber;
+    private Long damage;
 
     @ManyToOne
-    @JoinColumn(name = "game_id")
-    private Game game;
+    @JoinColumns({
+            @JoinColumn(name = "game_id", referencedColumnName = "game_id"),
+            @JoinColumn(name = "roundNumber", referencedColumnName = "roundNumber")
+    })
+    private Round round;
 
 }

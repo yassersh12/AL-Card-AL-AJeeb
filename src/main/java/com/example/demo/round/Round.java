@@ -16,23 +16,21 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(RoundKey.class)
 public class Round {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roundId;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
-    private int roundNumber;
+    @Id
+    private Long roundNumber;
 
     @ManyToOne
     @JoinColumn(name = "environment_id")
     private Environment environment;
 
-    //@OneToMany(mappedBy = "Round")
-   // private List<UserAttack> userAttacks;
-
-
+    @OneToMany(mappedBy = "round")
+    private List<UserAttack> userAttacks;
 }
