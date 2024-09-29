@@ -19,19 +19,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
     private Long score;
     private Long health = 100l;
-
     private String username;
     private String password;
+    private Long AvgCreativity;
     private UserRole role;
-
-    @OneToMany(mappedBy = "player1")
-    private List<Game> gamesAsPlayer1;
-
-    @OneToMany(mappedBy = "player2")
-    private List<Game> gamesAsPlayer2;
 
     @OneToMany(mappedBy = "user")
     private List<UserAttack> userAttacks;

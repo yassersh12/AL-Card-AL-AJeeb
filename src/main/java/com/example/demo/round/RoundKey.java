@@ -27,6 +27,4 @@ public class RoundKey implements Serializable{
         public int hashCode() {
             return Objects.hash(game, roundNumber);
         }
-    //@OneToMany(mappedBy = "Round")
-    // private List<UserAttack> userAttacks;
 }

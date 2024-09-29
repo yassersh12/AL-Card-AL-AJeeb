@@ -29,6 +29,10 @@ public class Game {
     private User player2;
 
     private GameStatus status;
+
+    private Long Player1Creativity;
+    private Long Player2creativity;
+
     private String battleDescription;
 
     @ManyToOne
