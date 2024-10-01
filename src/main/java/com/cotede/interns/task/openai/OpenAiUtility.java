@@ -1,4 +1,4 @@
-package com.example.demo.openai;
+package com.cotede.interns.task.openai;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

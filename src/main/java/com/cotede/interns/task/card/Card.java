@@ -1,6 +1,6 @@
-package com.example.demo.card;
+package com.cotede.interns.task.card;
 
-import com.example.demo.userAttack.UserAttack;
+import com.cotede.interns.task.userAttack.UserAttack;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

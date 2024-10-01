@@ -1,4 +1,4 @@
-package com.example.demo.openai;
+package com.cotede.interns.task.openai;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

@@ -1,7 +1,6 @@
-package com.example.demo.user;
+package com.cotede.interns.task.user;
 
-import com.example.demo.game.Game;
-import com.example.demo.userAttack.UserAttack;
+import com.cotede.interns.task.userAttack.UserAttack;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

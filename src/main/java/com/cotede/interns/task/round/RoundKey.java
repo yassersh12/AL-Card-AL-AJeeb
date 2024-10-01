@@ -1,4 +1,4 @@
-package com.example.demo.round;
+package com.cotede.interns.task.round;
 
 import java.util.Objects;
 import java.io.Serializable;

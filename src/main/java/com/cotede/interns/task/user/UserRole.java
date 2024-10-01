@@ -1,4 +1,4 @@
-package com.example.demo.user;
+package com.cotede.interns.task.user;
 
 public enum UserRole {
     PLAYER,

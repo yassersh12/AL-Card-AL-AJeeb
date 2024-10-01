@@ -1,4 +1,4 @@
-package com.example.demo.game;
+package com.cotede.interns.task.game;
 
 public enum GameStatus {
     PENDING,

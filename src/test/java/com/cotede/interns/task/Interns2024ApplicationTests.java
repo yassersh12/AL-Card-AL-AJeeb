@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.cotede.interns.task;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class Interns2024ApplicationTests {
 
     @Test
     void contextLoads() {

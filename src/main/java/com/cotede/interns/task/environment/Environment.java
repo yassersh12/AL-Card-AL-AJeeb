@@ -1,6 +1,6 @@
-package com.example.demo.environment;
+package com.cotede.interns.task.environment;
 
-import com.example.demo.round.Round;
+import com.cotede.interns.task.round.Round;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
