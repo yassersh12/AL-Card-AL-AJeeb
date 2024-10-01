@@ -12,7 +12,4 @@ public class OpenAiUtility {
         return root.path("choices").get(0).path("text").asText();
     }
 }
-//<dependency>
-//    <groupId>com.fasterxml.jackson.core</groupId>
-//    <artifactId>jackson-databind</artifactId>
-//</dependency>
+
