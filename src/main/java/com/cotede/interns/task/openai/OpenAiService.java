@@ -41,7 +41,7 @@ public class OpenAiService {
         headers.setBearerAuth(API_KEY);
 
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model", "gpt-3.5-turbo"); // Updated model for chat-based completions
+        requestBody.put("model", "gpt-3.5-turbo");
         requestBody.put("messages", chatHistory);
         requestBody.put("max_tokens", 100);
 
@@ -53,7 +53,7 @@ public class OpenAiService {
         // Extract the generated text from the response using the utility parser
         String generatedText = OpenAiUtility.extractGeneratedText(response.getBody());
 
-        // Optionally, add the assistant's response to the chat history for continuity
+        // Add the assistant's response to the chat history for continuity
         chatHistory.add(Map.of("role", "assistant", "content", generatedText));
 
         return generatedText;
