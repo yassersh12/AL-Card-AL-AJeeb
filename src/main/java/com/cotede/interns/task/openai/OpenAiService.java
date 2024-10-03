@@ -18,24 +18,43 @@ public class OpenAiService {
     private final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
     private final String API_KEY = "your-openai-api-key";
 
-    // Store the initial system message and conversation history
+    // Predefined system messages for different game operations
+    private final String GENERATE_CARDS_INSTRUCTION =
+            "Generate two random cards: each containing a description of " +
+            "a random object or creature, and its opposing object or creature (from the other card). " +
+            "Also, generate a random environment for the battle.";
+    private final String EVALUATE_RESPONSES_INSTRUCTION =
+            "Evaluate the strategies of two players based on the following " +
+            "descriptions. For each player, assign a damage output between 0 and 50 based on their effectiveness" +
+            " and a creativity score out of 100 based on how creative their response is.";
+
+    // Store the system message and conversation history
     private final List<Map<String, String>> chatHistory = new ArrayList<>();
 
     public OpenAiService() {
-        // System message that will be sent once during initialization
-        chatHistory.add(Map.of(
-                "role", "system",
-                "content", "You are an AI assistant designed to manage a game where two players compete by sending descriptions of how their object/creature would defeat their opponent's. Each round, you generate two random cards, each containing a description of a random object or creature and its opposing object or creature from the other card. You also generate a random environment for the battle. After each player submits their strategy, you evaluate their responses, assigning a damage output between 0 and 50 based on how effective their strategy is, with 50 representing the best possible attack. Both players start with 100 HP, and the game continues in rounds until one player’s HP reaches 0. If both reach 0 HP in the same round, the player with the higher remaining HP (even if negative) wins. At the end of the game, you provide a special creativity grade that assesses the players' creativity throughout the game. You must ensure that the game runs fairly, accurately evaluates the responses, and provides concise feedback for each round."
-        ));
+
+        String systemMessage =
+                "You are an AI assistant managing a game where two players battle with random creatures/objects." +
+                " You generate cards, evaluate their strategies, assign damage and creativity scores, and provide feedback.";
+        chatHistory.add(Map.of("role", "system", "content", systemMessage));
     }
 
-    public String getGeneratedResponse(String prompt) throws Exception {
+    private String executeOpenAiRequest(String fullPrompt) throws Exception {
+        chatHistory.add(Map.of("role", "user", "content", fullPrompt));
+
+        HttpEntity<Map<String, Object>> request = setupOpenAiRequest(fullPrompt);
         RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.postForEntity(OPENAI_API_URL, request, String.class);
 
-        // Add the user's message to the chat history
-        chatHistory.add(Map.of("role", "user", "content", prompt));
+        String generatedText = OpenAiUtility.extractGeneratedText(response.getBody());
 
-        // Create the request body
+        // Add assistant's response to chat history for future continuity
+        chatHistory.add(Map.of("role", "assistant", "content", generatedText));
+
+        return generatedText;
+    }
+
+    private HttpEntity<Map<String, Object>> setupOpenAiRequest(String prompt) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(API_KEY);
@@ -43,19 +62,18 @@ public class OpenAiService {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "gpt-3.5-turbo");
         requestBody.put("messages", chatHistory);
-        requestBody.put("max_tokens", 100);
+        requestBody.put("max_tokens", 150);
 
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+        return new HttpEntity<>(requestBody, headers);
+    }
 
-        // Send the request to OpenAI
-        ResponseEntity<String> response = restTemplate.postForEntity(OPENAI_API_URL, request, String.class);
+    public String generateCards(String prompt) throws Exception {
+        String fullPrompt = GENERATE_CARDS_INSTRUCTION + " " + prompt;
+        return executeOpenAiRequest(fullPrompt);
+    }
 
-        // Extract the generated text from the response using the utility parser
-        String generatedText = OpenAiUtility.extractGeneratedText(response.getBody());
-
-        // Add the assistant's response to the chat history for continuity
-        chatHistory.add(Map.of("role", "assistant", "content", generatedText));
-
-        return generatedText;
+    public String evaluateResponses(String prompt) throws Exception {
+        String fullPrompt = EVALUATE_RESPONSES_INSTRUCTION + " " + prompt;
+        return executeOpenAiRequest(fullPrompt);
     }
 }
