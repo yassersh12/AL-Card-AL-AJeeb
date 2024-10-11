@@ -5,11 +5,12 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameWebSocketHandler extends TextWebSocketHandler {
 
-    private List<WebSocketSession> sessions;
+    private List<WebSocketSession> sessions = new ArrayList<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -28,6 +29,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
         for (WebSocketSession session : sessions) {
             session.sendMessage(new TextMessage("Both players joined. The game is starting now!"));
         }
+
     }
 
     @Override
