@@ -1,7 +1,7 @@
 package com.cotede.interns.task.game;
 
-import com.cotede.interns.task.round.Round;
 import com.cotede.interns.task.user.User;
+import com.cotede.interns.task.round.Round;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

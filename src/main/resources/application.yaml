@@ -12,6 +12,3 @@ spring:
     url: jdbc:postgresql://localhost:5432/random_fights
     username: admin
     password: yoink
-
-
-
