@@ -40,7 +40,7 @@ public class EnvironmentController {
     }
 
     @GetMapping
-    public ApiResponse<List<Environment>> getAllEnvironments() {
+    public ApiResponse< List<Environment>> getAllEnvironments() {
         List<Environment> environments = environmentService.getAllEnvironments();
         return ApiResponse.<List<Environment>>builder()
                 .content(environments)
