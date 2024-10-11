@@ -1,9 +1,9 @@
 server:
-  port: 8000
+  port: 8085
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   application:
     name: cards-dev
   profiles:
