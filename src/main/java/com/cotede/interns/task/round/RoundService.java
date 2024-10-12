@@ -1,10 +1,14 @@
 package com.cotede.interns.task.round;
 
+import com.cotede.interns.task.card.Card;
+import com.cotede.interns.task.card.CardService;
+import com.cotede.interns.task.card.CardUtility;
 import com.cotede.interns.task.openai.AiCardsResponse;
 import com.cotede.interns.task.openai.OpenAiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,15 +18,18 @@ public class RoundService {
 
     private final RoundRepository roundRepository;
     private final OpenAiService openAiService;
-    private List<Round> rounds;
+    private final CardService cardService;
+    private List<Round> rounds = new ArrayList<Round>();
 
     //---- > not finished yet  < ----
     public Round createRound() throws Exception {
-        AiCardsResponse cardResponse = openAiService.generateCards();
+        AiCardsResponse cardsJsonResponse = openAiService.generateCards();
 
-        for(int i = 1; i <= 2; i++) {
+        List<String> cardsText = RoundUtility.extractCardsText(cardsJsonResponse);
+        List<Card> cards = cardService.createRoundCards(cardsText);
 
-        }
+        String enviornmentText = cardsJsonResponse.getEnvironment();
+
 
         return roundRepository.save(new Round());
     }
