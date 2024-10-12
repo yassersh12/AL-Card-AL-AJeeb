@@ -17,14 +17,8 @@ public class RoundService {
     private List<Round> rounds;
 
     //---- > not finished yet  < ----
-    public Round createRound()
-    {
-        try {
-            AiCardsResponse cardResponse = openAiService.generateCards();
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    public Round createRound() throws Exception {
+        AiCardsResponse cardResponse = openAiService.generateCards();
 
         for(int i = 1; i <= 2; i++) {
 
@@ -44,5 +38,4 @@ public class RoundService {
     public void deleteRound(Long roundId) {
         roundRepository.deleteById(roundId);
     }
-    // test
 }

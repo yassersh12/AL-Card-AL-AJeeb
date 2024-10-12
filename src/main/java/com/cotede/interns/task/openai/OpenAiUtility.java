@@ -1,20 +1,22 @@
 package com.cotede.interns.task.openai;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class OpenAiUtility {
-    public static String extractGeneratedText(String jsonResponse) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode root = objectMapper.readTree(jsonResponse);
+    private final static ObjectMapper objectMapper = new ObjectMapper();
 
+    public static String extractGeneratedText(String jsonResponse) throws JsonProcessingException {
+        JsonNode root = objectMapper.readTree(jsonResponse);
         // Extract the generated text from choices[0].text
         return root.path("choices").get(0).path("text").asText();
     }
 
     // Method to extract AiCardResponse from a JSON response
-    public static AiCardsResponse extractCardResponse(String jsonResponse) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public static AiCardsResponse extractCardResponse(String jsonResponse) throws JsonProcessingException {
         JsonNode root = objectMapper.readTree(jsonResponse);
 
         // Extract card fields from the JSON
@@ -28,8 +30,7 @@ public class OpenAiUtility {
     }
 
     // Method to extract AiEvaluationResponse from a JSON response
-    public static AiEvaluationsResponse extractEvaluationResponse(String jsonResponse) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public static AiEvaluationsResponse extractEvaluationResponse(String jsonResponse) throws JsonProcessingException {
         JsonNode root = objectMapper.readTree(jsonResponse);
 
         // Extract evaluation fields from the JSON
