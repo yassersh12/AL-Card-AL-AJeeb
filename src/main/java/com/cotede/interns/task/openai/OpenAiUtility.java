@@ -18,12 +18,14 @@ public class OpenAiUtility {
         JsonNode root = objectMapper.readTree(jsonResponse);
 
         // Extract card fields from the JSON
-        String object = root.path("object").asText();
-        String cardDescription = root.path("card_description").asText();
+        String object1 = root.path("object1").asText();
+        String object2 = root.path("object2").asText();
+        String cardDescription1 = root.path("card_description1").asText();
+        String cardDescription2 = root.path("card_description2").asText();
         String summary = root.path("summary").asText();
 
         // Create and return the AiCardResponse object
-        return new AiCardResponse(object, cardDescription, summary);
+        return new AiCardResponse(object1,object2, cardDescription1, cardDescription2, summary);
     }
 
     // Method to extract AiEvaluationResponse from a JSON response

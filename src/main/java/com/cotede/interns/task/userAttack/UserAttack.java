@@ -19,7 +19,7 @@ public class UserAttack {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long attackId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "card_id")
     private Card card;
 

@@ -23,8 +23,4 @@ public class Card {
     private String opposingObject;
     private String cardDescription;
 
-    @OneToMany(mappedBy = "card")
-    private List<UserAttack> userAttacks;
-
-
 }

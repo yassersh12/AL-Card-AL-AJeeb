@@ -10,7 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AiCardResponse {
-    private String object;
-    private String cardDescription;
+    private String object1;
+    private String object2;
+    private String cardDescription1;
+    private String cardDescription2;
     private String summary;
 }
