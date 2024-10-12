@@ -13,23 +13,22 @@ public class OpenAiUtility {
     }
 
     // Method to extract AiCardResponse from a JSON response
-    public static AiCardResponse extractCardResponse(String jsonResponse) throws Exception {
+    public static AiCardsResponse extractCardResponse(String jsonResponse) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonResponse);
 
         // Extract card fields from the JSON
-        String object1 = root.path("object1").asText();
-        String object2 = root.path("object2").asText();
-        String cardDescription1 = root.path("card_description1").asText();
-        String cardDescription2 = root.path("card_description2").asText();
+        String card1 = root.path("card1").asText();
+        String card2 = root.path("card2").asText();
+        String environment = root.path("environment").asText();
         String summary = root.path("summary").asText();
 
         // Create and return the AiCardResponse object
-        return new AiCardResponse(object1,object2, cardDescription1, cardDescription2, summary);
+        return new AiCardsResponse(card1,card2, environment, summary);
     }
 
     // Method to extract AiEvaluationResponse from a JSON response
-    public static AiEvaluationResponse extractEvaluationResponse(String jsonResponse) throws Exception {
+    public static AiEvaluationsResponse extractEvaluationResponse(String jsonResponse) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonResponse);
 
@@ -43,7 +42,7 @@ public class OpenAiUtility {
         String summary = root.path("summary").asText();
 
         // Create and return the AiEvaluationResponse object
-        return new AiEvaluationResponse(damage1, damage2, creativity1, creativity2, description1, description2, summary);
+        return new AiEvaluationsResponse(damage1, damage2, creativity1, creativity2, description1, description2, summary);
     }
 }
 

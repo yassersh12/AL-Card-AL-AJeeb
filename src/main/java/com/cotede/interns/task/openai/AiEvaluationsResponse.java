@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AiEvaluationResponse {
+public class AiEvaluationsResponse {
     private Long damage1;
     private Long damage2;
     private Long creativity1;

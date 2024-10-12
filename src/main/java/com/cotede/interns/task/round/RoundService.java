@@ -1,9 +1,8 @@
 package com.cotede.interns.task.round;
 
-import com.cotede.interns.task.openai.AiCardResponse;
+import com.cotede.interns.task.openai.AiCardsResponse;
 import com.cotede.interns.task.openai.OpenAiService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class RoundService {
     public Round createRound()
     {
         try {
-            AiCardResponse cardResponse = openAiService.generateCards();
+            AiCardsResponse cardResponse = openAiService.generateCards();
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

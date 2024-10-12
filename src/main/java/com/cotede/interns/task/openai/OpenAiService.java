@@ -24,7 +24,7 @@ public class OpenAiService {
         
         You should also provide a special creativity grade that assesses the players' creativity throughout the game. At the end of each response, you must generate a game summary, containing the most important details from previous rounds to provide context for upcoming evaluations and card generations. Ensure that the summary includes damage values, creativity scores, and any other information necessary to balance the game.
         
-        Make sure the response is properly formatted as valid JSON, for the cards and the evaluation so the information can be easily extracted, card has to have object1, object2, and card_description1 (and 2), the evaluation have to give damage1, damage2, creativity1, creativity2, description1, and description2. And in every json response, the summary should be there under the name summary. 
+        Make sure the response is properly formatted as valid JSON, for the cards and the evaluation so the information can be easily extracted. Cards has to have card1, card2 (object and cardDescription, for each), environment (fightingPlace, weather). the evaluation have to give damage1, damage2, creativity1, creativity2, description1, and description2. And in every json response, the summary should be there under the name summary. 
         """;
 
     private String gameSummary = "";
@@ -56,18 +56,18 @@ public class OpenAiService {
         return OpenAiUtility.extractGeneratedText(response.getBody());
     }
 
-    public AiCardResponse generateCards() throws Exception {
+    public AiCardsResponse generateCards() throws Exception {
         String fullPrompt = "Generate new cards and environment based on the following game summary: " + gameSummary;
         String jsonResponse = sendRequest(fullPrompt);
-        AiCardResponse cardResponse = OpenAiUtility.extractCardResponse(jsonResponse);
+        AiCardsResponse cardResponse = OpenAiUtility.extractCardResponse(jsonResponse);
         gameSummary = cardResponse.getSummary();
         return cardResponse;
     }
 
-    public AiEvaluationResponse evaluateResponses(String prompt) throws Exception {
+    public AiEvaluationsResponse evaluateResponses(String prompt) throws Exception {
         String fullPrompt = "Evaluate the player responses based on the following game summary: " + gameSummary + ". " + prompt;
         String jsonResponse = sendRequest(fullPrompt);
-        AiEvaluationResponse evaluationResponse = OpenAiUtility.extractEvaluationResponse(jsonResponse);
+        AiEvaluationsResponse evaluationResponse = OpenAiUtility.extractEvaluationResponse(jsonResponse);
         gameSummary = evaluationResponse.getSummary();
         return evaluationResponse;
     }

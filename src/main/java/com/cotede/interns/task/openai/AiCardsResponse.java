@@ -1,5 +1,6 @@
 package com.cotede.interns.task.openai;
 
+import com.cotede.interns.task.environment.Environment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AiCardResponse {
-    private String object1;
-    private String object2;
-    private String cardDescription1;
-    private String cardDescription2;
+public class AiCardsResponse {
+    private String card1;
+    private String card2;
+    private String environment;
     private String summary;
 }
