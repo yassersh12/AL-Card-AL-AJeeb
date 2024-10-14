@@ -29,8 +29,11 @@ public class RoundService {
         List<Card> cards = cardService.createRoundCards(cardsText);
 
         String enviornmentText = cardsJsonResponse.getEnvironment();
-        
+        // TODO: extract environment object.
 
+        // TODO: handle userAttack logic and generate the 2 user attacks here.
+
+        // TODO: construct the round after getting what's necessary and return it.
         return roundRepository.save(new Round());
     }
 
