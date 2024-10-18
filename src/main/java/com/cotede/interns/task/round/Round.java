@@ -4,10 +4,7 @@ import com.cotede.interns.task.environment.Environment;
 import com.cotede.interns.task.game.Game;
 import com.cotede.interns.task.userAttack.UserAttack;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @IdClass(RoundKey.class)
+@Builder
 public class Round {
 
     @Id

@@ -4,16 +4,14 @@ import com.cotede.interns.task.card.Card;
 import com.cotede.interns.task.user.User;
 import com.cotede.interns.task.round.Round;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserAttack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +27,7 @@ public class UserAttack {
 
     private String attackDescription;
     private Long damage;
+    private Long creativity;
 
     @ManyToOne
     @JoinColumns({

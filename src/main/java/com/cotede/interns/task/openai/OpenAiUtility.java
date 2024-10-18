@@ -19,31 +19,37 @@ public class OpenAiUtility {
     public static AiCardsResponse extractCardResponse(String jsonResponse) throws JsonProcessingException {
         JsonNode root = objectMapper.readTree(jsonResponse);
 
-        // Extract card fields from the JSON
         String card1 = root.path("card1").asText();
         String card2 = root.path("card2").asText();
         String environment = root.path("environment").asText();
         String summary = root.path("summary").asText();
 
-        // Create and return the AiCardResponse object
         return new AiCardsResponse(card1,card2, environment, summary);
     }
 
-    // Method to extract AiEvaluationResponse from a JSON response
+    // Method to extract AiEvaluationsResponse from a JSON response
     public static AiEvaluationsResponse extractEvaluationResponse(String jsonResponse) throws JsonProcessingException {
         JsonNode root = objectMapper.readTree(jsonResponse);
 
-        // Extract evaluation fields from the JSON
-        Long damage1 = root.path("damage1").asLong();
-        Long damage2 = root.path("damage2").asLong();
-        Long creativity1 = root.path("creativity1").asLong();
-        Long creativity2 = root.path("creativity2").asLong();
-        String description1 = root.path("description1").asText();
-        String description2 = root.path("description2").asText();
+        // Extract userAttack1 and userAttack2 fields from the JSON
+        JsonNode userAttack1Node = root.path("userAttack1");
+        JsonNode userAttack2Node = root.path("userAttack2");
+
+        Long damage1 = userAttack1Node.path("damage").asLong();
+        Long creativity1 = userAttack1Node.path("creativity").asLong();
+        String description1 = userAttack1Node.path("description").asText();
+
+        Long damage2 = userAttack2Node.path("damage").asLong();
+        Long creativity2 = userAttack2Node.path("creativity").asLong();
+        String description2 = userAttack2Node.path("description").asText();
+
         String summary = root.path("summary").asText();
 
-        // Create and return the AiEvaluationResponse object
-        return new AiEvaluationsResponse(damage1, damage2, creativity1, creativity2, description1, description2, summary);
+        AiUserAttack userAttack1 = new AiUserAttack(damage1, creativity1, description1);
+        AiUserAttack userAttack2 = new AiUserAttack(damage2, creativity2, description2);
+
+        return new AiEvaluationsResponse(userAttack1, userAttack2, summary);
     }
+
 }
 

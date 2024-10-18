@@ -24,7 +24,7 @@ public class OpenAiService {
         
         You should also provide a special creativity grade that assesses the players' creativity throughout the game. At the end of each response, you must generate a game summary, containing the most important details from previous rounds to provide context for upcoming evaluations and card generations. Ensure that the summary includes damage values, creativity scores, and any other information necessary to balance the game.
         
-        Make sure the response is properly formatted as valid JSON, for the cards and the evaluation so the information can be easily extracted. Cards has to have card1, card2 (object and cardDescription, for each), environment (fightingPlace, weather). the evaluation have to give damage1, damage2, creativity1, creativity2, description1, and description2. And in every json response, the summary should be there under the name summary. 
+        Make sure the response is properly formatted as valid JSON, for the cards and the evaluation so the information can be easily extracted. Cards has to have card1, card2 (object and cardDescription, for each), environment (fightingPlace, weather). the evaluation have to give userAttack1 and userAttack2 objects (in json) each having : (damage, creativity, description (of the whole attack)). And in every json response, the summary should be there under the name summary. 
         """;
 
     private String gameSummary = "";

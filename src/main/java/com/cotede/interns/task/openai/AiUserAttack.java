@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AiEvaluationsResponse {
-    List<AiUserAttack> aiUserAttacks;
-    private String summary;
+public class AiUserAttack {
+    private Long damage;
+    private Long creativity;
+    private String description;
 }
