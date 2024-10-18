@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 public class OpenAiUtility {
     private final static ObjectMapper objectMapper = new ObjectMapper();
@@ -47,8 +50,11 @@ public class OpenAiUtility {
 
         AiUserAttack userAttack1 = new AiUserAttack(damage1, creativity1, description1);
         AiUserAttack userAttack2 = new AiUserAttack(damage2, creativity2, description2);
+        List<AiUserAttack> aiUserAttacks = new ArrayList<>();
+        aiUserAttacks.add(userAttack1);
+        aiUserAttacks.add(userAttack2);
 
-        return new AiEvaluationsResponse(userAttack1, userAttack2, summary);
+        return new AiEvaluationsResponse(aiUserAttacks, summary);
     }
 
 }
