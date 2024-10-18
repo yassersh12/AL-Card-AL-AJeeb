@@ -3,18 +3,17 @@ package com.cotede.interns.task.game;
 import com.cotede.interns.task.user.User;
 import com.cotede.interns.task.round.Round;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +30,7 @@ public class Game {
     private GameStatus status;
 
     private Long Player1Creativity;
-    private Long Player2creativity;
+    private Long Player2Creativity;
 
     private String battleDescription;
 

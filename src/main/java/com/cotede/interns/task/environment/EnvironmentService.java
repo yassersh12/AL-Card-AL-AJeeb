@@ -1,5 +1,6 @@
 package com.cotede.interns.task.environment;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,8 @@ public class EnvironmentService {
     @Autowired
     private EnvironmentRepository environmentRepository;
 
-    public Environment createEnvironment(Environment environment) {
+    public Environment createEnvironment(String environmentText) throws JsonProcessingException {
+        Environment environment = EnvironmentUtility.extractEnvironment(environmentText);
         return environmentRepository.save(environment);
     }
 
