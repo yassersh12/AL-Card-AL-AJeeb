@@ -3,12 +3,14 @@ server:
 spring:
   jpa:
     hibernate:
+
       ddl-auto: update
   application:
     name: cards-dev
   profiles:
     active: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/random_fights
+    url: jdbc:postgresql://localhost:5432/postgres
     username: admin
-    password: yoink
+    password: admin
+    driver-class-name: org.postgresql.Driver
