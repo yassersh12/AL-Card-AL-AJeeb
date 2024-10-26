@@ -1,16 +1,13 @@
 package com.cotede.interns.task.user;
 
 import lombok.*;
-import org.springframework.web.socket.WebSocketSession;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserSession {
+public class UserInfo {
     private String username;
     private String password;
-    private int playerNumber;
-    private boolean active = Boolean.FALSE;
 }

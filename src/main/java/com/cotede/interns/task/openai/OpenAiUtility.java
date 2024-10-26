@@ -14,6 +14,7 @@ public class OpenAiUtility {
 
     public static String extractGeneratedText(String jsonResponse) throws JsonProcessingException {
         JsonNode root = objectMapper.readTree(jsonResponse);
+        System.out.println(jsonResponse);
         // Extract the generated text from choices[0].text
         return root.path("choices").get(0).path("text").asText();
     }

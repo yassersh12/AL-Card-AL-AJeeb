@@ -6,6 +6,7 @@ import com.cotede.interns.task.card.CardUtility;
 import com.cotede.interns.task.environment.Environment;
 import com.cotede.interns.task.environment.EnvironmentService;
 import com.cotede.interns.task.game.Game;
+import com.cotede.interns.task.game.GameRepository;
 import com.cotede.interns.task.openai.AiCardsResponse;
 import com.cotede.interns.task.openai.AiEvaluationsResponse;
 import com.cotede.interns.task.openai.AiUserAttack;
@@ -28,6 +29,7 @@ import java.util.Optional;
 public class RoundService {
 
     private final RoundRepository roundRepository;
+    private final GameRepository gameRepository;
     private final OpenAiService openAiService;
     private final CardService cardService;
     private final EnvironmentService environmentService;
@@ -36,9 +38,9 @@ public class RoundService {
     private Long roundNumber = 1l;
 
 
-    public Round createRound(List<UserResponse> userResponses, Game game) throws Exception {
+    public Round createRound(List<UserResponse> userResponses, Long gameId) throws Exception {
         List<UserAttack> userAttacks = new ArrayList<>();
-
+        Game game = gameRepository.getReferenceById(gameId);
         String prompt = UserUtility.userResponsesToPrompt(userResponses);
         AiEvaluationsResponse evaluationsJsonResponse = openAiService.evaluateResponses(prompt);
         List<AiUserAttack> aiUserAttacks = evaluationsJsonResponse.getAiUserAttacks();
@@ -55,8 +57,8 @@ public class RoundService {
                 .environment(currentRound.getEnvironment())
                 .userAttacks(userAttacks)
                 .build();
-
-        return roundRepository.save(round);
+        roundRepository.save(round);
+        return round;
     }
 
     private Long GetRoundNumber(){

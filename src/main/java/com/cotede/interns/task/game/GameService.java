@@ -22,12 +22,12 @@ public class GameService {
     private Game currentGame;
     private List<UserSession> userSessions;
 
-    public GameCreationResponse createGame(UserSession userSession1, UserSession userSession2) throws Exception {
-        userSessions.add(userSession1);
-        userSessions.add(userSession2);
+    public GameCreationResponse createGame(String username1, String username2) throws Exception {
+        /*userSessions.add(userSession1);
+        userSessions.add(userSession2);*/
 
-        Optional<User> player1 = userService.getUserByUsername(userSession1.getUsername());
-        Optional<User> player2 = userService.getUserByUsername(userSession2.getUsername());
+        Optional<User> player1 = userService.getUserByUsername(username1);
+        Optional<User> player2 = userService.getUserByUsername(username2);
 
         GameStatus status = GameStatus.ON_GOING;
 
