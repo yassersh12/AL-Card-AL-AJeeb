@@ -3,7 +3,6 @@ server:
 spring:
   jpa:
     hibernate:
-
       ddl-auto: update
   application:
     name: cards-dev
@@ -12,5 +11,5 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: admin
-    password: admin
+    password: yoink
     driver-class-name: org.postgresql.Driver

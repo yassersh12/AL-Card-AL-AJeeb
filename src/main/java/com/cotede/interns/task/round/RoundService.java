@@ -48,6 +48,8 @@ public class RoundService {
         for (int i = 0; i < 2; i++) {
             Card card = currentRound.getCards().get(i);
             UserAttack userAttack = userAttackService.createUserAttack(userResponses.get(i), card, aiUserAttacks.get(i));
+            System.out.println("Ai User Attack : " + aiUserAttacks.get(i).getDamage());
+            System.out.println("User Attack : " + userAttack.getDamage());
             userAttacks.add(userAttack);
         }
 

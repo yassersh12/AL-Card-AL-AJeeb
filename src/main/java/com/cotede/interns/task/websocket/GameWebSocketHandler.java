@@ -153,6 +153,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler
 
     private void sendAttacksToServer(List<UserResponse> attacks) throws Exception {
         Round round = roundService.createRound(attacks, gameId);
+        System.out.println("Round : " + round.getUserAttacks().get(0).getDamage());
         evaluateRoundResults(round);
     }
 
@@ -169,6 +170,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler
         // Process attacks and update health
         for (UserAttack attack : round.getUserAttacks()) {
             System.out.println("Evaluating attack from: " + attack.getUser().getUsername());
+//            System.out.println("Attack : " + attack.getDamage() + "\n" + attack.getAttackDescription());
             if (attack.getUser().getUsername().equals(player1.getUsername())) {
                 // Player1 attacks Player2
                 damageToPlayer2 += attack.getDamage();

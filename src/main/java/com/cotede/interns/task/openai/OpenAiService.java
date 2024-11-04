@@ -19,16 +19,16 @@ public class OpenAiService {
 
     private final String BASE_SYSTEM_MESSAGE = """
     You are an AI assistant designed to manage a game where two players compete by sending descriptions of how their object/creature would defeat their opponent's. Each round, you generate two random cards, each containing a description of a random object or creature and its opposing object or creature from the other card. You also generate a random environment for the battle.
-
+ 
     After each player submits their strategy, you evaluate their responses, assigning a damage output between 0 and 50 based on how effective their strategy is, with 50 representing the best possible attack. Both players start with 100 HP, and the game continues in rounds until one player’s HP reaches 0. If both reach 0 HP in the same round, the player with the higher remaining HP (even if negative) wins.
-
+ 
     You should also provide a special creativity grade that assesses the players' creativity throughout the game. At the end of each evaluation response, you must generate a game summary as a text, containing the most important details from previous rounds to provide context for upcoming evaluations and card generations. Ensure that the summary includes damage values, creativity scores, and any other information necessary to balance the game all as a text not json tree.
-
+ 
     Make sure the response is properly formatted as valid JSON for the cards and the evaluation so the information can be easily extracted. In every "evaluation" JSON response, the summary should be included under the name "summary".""";
 
     private final String CARDS_PROMPT = """
     Generate two random cards and an environment for the upcoming round. Each card should describe an object or creature and its opposing object or creature from the other card, in the format below.
-
+ 
     Response Format:
     {
         "card1": {
@@ -43,7 +43,7 @@ public class OpenAiService {
           "fightingPlace": "<location of the battle>",
           "weather": "<current weather conditions>"
         }
-      
+ 
     }
     """;
 
@@ -52,7 +52,6 @@ public class OpenAiService {
 
     Response Format:
     {
-      "evaluation": {
         "userAttack1": {
           "damage": "<damage output for player 1>",
           "creativity": "<creativity score for player 1>",
@@ -62,9 +61,8 @@ public class OpenAiService {
           "damage": "<damage output for player 2>",
           "creativity": "<creativity score for player 2>",
           "description": "<description of the second player's attack>"
-        }
-      },
-      "summary": "<summary of the game state>"
+        },
+        "summary": "<summary of the game state>"
     }
     """;
 
@@ -77,7 +75,7 @@ public class OpenAiService {
         headers.setBearerAuth(API_KEY);
 
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model", "gpt-3.5-turbo");
+        requestBody.put("model", "gpt-4-turbo");
         requestBody.put("messages", List.of(
                 Map.of("role", "system", "content", BASE_SYSTEM_MESSAGE + systemPrompt),
                 Map.of("role", "user", "content", fullPrompt)
