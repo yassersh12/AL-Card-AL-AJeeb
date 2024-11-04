@@ -12,21 +12,26 @@ import java.util.List;
 public class OpenAiUtility {
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
+
     public static String extractGeneratedText(String jsonResponse) throws JsonProcessingException {
         JsonNode root = objectMapper.readTree(jsonResponse);
-        System.out.println(jsonResponse);
-        // Extract the generated text from choices[0].text
-        return root.path("choices").get(0).path("text").asText();
+        // Extract the generated text from choices[0].message.content
+        String generatedText = root.path("choices").get(0).path("message").path("content").asText();
+        System.out.println(generatedText);
+        return generatedText;
     }
 
     // Method to extract AiCardResponse from a JSON response
     public static AiCardsResponse extractCardResponse(String jsonResponse) throws JsonProcessingException {
         JsonNode root = objectMapper.readTree(jsonResponse);
 
-        String card1 = root.path("card1").asText();
-        String card2 = root.path("card2").asText();
-        String environment = root.path("environment").asText();
-        String summary = root.path("summary").asText();
+        String card1 = root.path("card1").toString();
+        String card2 = root.path("card2").toString();
+
+        String environment = root.path("environment").toString();
+        String summary = root.path("summary").toString();
+
+        System.out.println(summary);
 
         return new AiCardsResponse(card1,card2, environment, summary);
     }

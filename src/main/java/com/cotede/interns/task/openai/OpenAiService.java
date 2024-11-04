@@ -22,19 +22,50 @@ public class OpenAiService {
 
     After each player submits their strategy, you evaluate their responses, assigning a damage output between 0 and 50 based on how effective their strategy is, with 50 representing the best possible attack. Both players start with 100 HP, and the game continues in rounds until one player’s HP reaches 0. If both reach 0 HP in the same round, the player with the higher remaining HP (even if negative) wins.
 
-    You should also provide a special creativity grade that assesses the players' creativity throughout the game. At the end of each response, you must generate a game summary, containing the most important details from previous rounds to provide context for upcoming evaluations and card generations. Ensure that the summary includes damage values, creativity scores, and any other information necessary to balance the game.
+    You should also provide a special creativity grade that assesses the players' creativity throughout the game. At the end of each evaluation response, you must generate a game summary as a text, containing the most important details from previous rounds to provide context for upcoming evaluations and card generations. Ensure that the summary includes damage values, creativity scores, and any other information necessary to balance the game all as a text not json tree.
 
-    Make sure the response is properly formatted as valid JSON, for the cards and the evaluation so the information can be easily extracted. Cards has to have card1, card2 (object and cardDescription, for each), environment (fightingPlace, weather). The evaluation has to give userAttack1 and userAttack2 objects (in json) each having: (damage, creativity, description (of the whole attack)). In every JSON response, the summary should be there under the name summary.
-    
-    
-    """;
+    Make sure the response is properly formatted as valid JSON for the cards and the evaluation so the information can be easily extracted. In every "evaluation" JSON response, the summary should be included under the name "summary".""";
 
     private final String CARDS_PROMPT = """
-    Only generate the cards and environment for this response. Do not include evaluation details. Include an updated game summary.
+    Generate two random cards and an environment for the upcoming round. Each card should describe an object or creature and its opposing object or creature from the other card, in the format below.
+
+    Response Format:
+    {
+        "card1": {
+          "object": "<description of the first object>",
+          "cardDescription": "<description of the first object's abilities>"
+        },
+        "card2": {
+          "object": "<description of the second object>",
+          "cardDescription": "<description of the second object's abilities>"
+        },
+        "environment": {
+          "fightingPlace": "<location of the battle>",
+          "weather": "<current weather conditions>"
+        }
+      
+    }
     """;
 
     private final String EVALUATION_PROMPT = """
-    Only provide the evaluation details for each player attack in this response. Do not generate new cards or environment. Include an updated game summary.
+    Evaluate the players' attacks for the current round. Each attack should have a damage score (0-50), a creativity score, and a brief description of the attack. Use the format below.
+
+    Response Format:
+    {
+      "evaluation": {
+        "userAttack1": {
+          "damage": "<damage output for player 1>",
+          "creativity": "<creativity score for player 1>",
+          "description": "<description of the first player's attack>"
+        },
+        "userAttack2": {
+          "damage": "<damage output for player 2>",
+          "creativity": "<creativity score for player 2>",
+          "description": "<description of the second player's attack>"
+        }
+      },
+      "summary": "<summary of the game state>"
+    }
     """;
 
 

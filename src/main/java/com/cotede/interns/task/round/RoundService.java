@@ -67,14 +67,18 @@ public class RoundService {
 
     public RoundCreationResponse createRoundResponse() throws Exception {
         AiCardsResponse cardsJsonResponse = openAiService.generateCards();
-
         List<String> cardsText = RoundUtility.extractCardsText(cardsJsonResponse);
         List<Card> cards = cardService.createRoundCards(cardsText);
+        System.out.println(cardsText);
+        System.out.println("//////////////////");
+        System.out.println(cards.get(0).getObject());
 
         String enviornmentText = cardsJsonResponse.getEnvironment();
+        System.out.println(enviornmentText);
         Environment environment = environmentService.createEnvironment(enviornmentText);
 
         currentRound = new RoundCreationResponse(cards, environment);
+
         return currentRound;
     }
 
