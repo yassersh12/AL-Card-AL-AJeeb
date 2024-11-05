@@ -31,4 +31,20 @@ public class UserService {
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
+
+    public List<UserScoreDto> getTop10UsersByScore() {
+        List<UserScoreDto> users = userRepository.findTop10ByScore();
+        for (int i = 0; i < users.size(); i++) {
+            users.get(i).setRank(i + 1); // Set rank starting from 1
+        }
+        return users;
+    }
+
+    public List<UserCreativityDto> getTop10UsersByAvgCreativity() {
+        List<UserCreativityDto> users = userRepository.findTop10ByAvgCreativity();
+        for (int i = 0; i < users.size(); i++) {
+            users.get(i).setRank(i + 1); // Set rank starting from 1
+        }
+        return users;
+    }
 }
