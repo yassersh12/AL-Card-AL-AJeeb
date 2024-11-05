@@ -12,11 +12,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String userName);
 
-    @Query("SELECT new com.cotede.interns.task.user.dto.UserScoreDto(0, u.username, u.score) " +
+    @Query("SELECT new com.cotede.interns.task.user.UserScoreDto(0, u.username, u.score) " +
             "FROM User u ORDER BY u.score DESC")
     List<UserScoreDto> findTop10ByScore();
 
-    @Query("SELECT new com.cotede.interns.task.user.dto.UserCreativityDto(0, u.username, u.AvgCreativity) " +
+    @Query("SELECT new com.cotede.interns.task.user.UserCreativityDto(0, u.username, u.AvgCreativity) " +
             "FROM User u ORDER BY u.AvgCreativity DESC")
     List<UserCreativityDto> findTop10ByAvgCreativity();
 }

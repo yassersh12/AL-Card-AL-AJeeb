@@ -27,8 +27,10 @@ public class OpenAiService {
     Make sure the response is properly formatted as valid JSON for the cards and the evaluation so the information can be easily extracted. In every "evaluation" JSON response, the summary should be included under the name "summary".""";
 
     private final String CARDS_PROMPT = """
-    Generate two random cards and an environment for the upcoming round. Each card should describe an object or creature and its opposing object or creature from the other card, in the format below.
- 
+    Generate two random cards and an environment for the upcoming round.
+    If this wasn't the first round, make sure that the cards are unique from the previous rounds provided by the game summary passed by the user prompt, and that they are not always mythical creatures and can be random creatures/objects from modern world.
+    Each card should describe an object or creature and its opposing object or creature from the other card, in the format below.
+    
     Response Format:
     {
         "card1": {
@@ -43,7 +45,7 @@ public class OpenAiService {
           "fightingPlace": "<location of the battle>",
           "weather": "<current weather conditions>"
         }
- 
+      
     }
     """;
 
