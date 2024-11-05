@@ -19,11 +19,11 @@ public class OpenAiService {
 
     private final String BASE_SYSTEM_MESSAGE = """
     You are an AI assistant designed to manage a game where two players compete by sending descriptions of how their object/creature would defeat their opponent's. Each round, you generate two random cards, each containing a description of a random object or creature and its opposing object or creature from the other card. You also generate a random environment for the battle.
- 
+
     After each player submits their strategy, you evaluate their responses, assigning a damage output between 0 and 50 based on how effective their strategy is, with 50 representing the best possible attack. Both players start with 100 HP, and the game continues in rounds until one player’s HP reaches 0. If both reach 0 HP in the same round, the player with the higher remaining HP (even if negative) wins.
- 
-    You should also provide a special creativity grade that assesses the players' creativity throughout the game. At the end of each evaluation response, you must generate a game summary as a text, containing the most important details from previous rounds to provide context for upcoming evaluations and card generations. Ensure that the summary includes damage values, creativity scores, and any other information necessary to balance the game all as a text not json tree.
- 
+
+    You should also provide a special creativity grade that assesses the players' creativity throughout the game. At the end of each evaluation response, and only evaluation responses (not card generation), you must generate a game summary as a text (not subsequent json tree), these summaries are only necessary for other chatgpt instances that will handel other rounds. Ensure that the summary includes damage values, creativity scores, all previous rounds object names, environment, and any other information necessary to balance the game.
+
     Make sure the response is properly formatted as valid JSON for the cards and the evaluation so the information can be easily extracted. In every "evaluation" JSON response, the summary should be included under the name "summary".""";
 
     private final String CARDS_PROMPT = """
