@@ -10,6 +10,8 @@ import com.cotede.interns.task.user.*;
 
 import com.cotede.interns.task.userAttack.UserAttack;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -25,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Component
 public class GameWebSocketHandler extends TextWebSocketHandler
 {
+    private static final Logger log = LoggerFactory.getLogger(GameWebSocketHandler.class);
     private final RoundService roundService;
     private final Map<WebSocketSession, UserSession> sessions = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -37,6 +40,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler
     private User player2;
     private boolean player1Answered = false;
     private boolean player2Answered = false;
+
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -144,10 +148,23 @@ public class GameWebSocketHandler extends TextWebSocketHandler
         GameCreationResponse gameWithRound = gameService.createGame(player1.getUsername(), player2.getUsername());
         gameId = gameWithRound.getGameId();
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonResponse = objectMapper.writeValueAsString(gameWithRound.getRoundCreationResponse());
+
+        String jsonResponse = objectMapper.writeValueAsString(gameWithRound.getRoundCreationResponse().getEnvironment());
+        //
+        RoundCreationResponse roundCreationResponse = gameWithRound.getRoundCreationResponse();
+        String card1=objectMapper.writeValueAsString(roundCreationResponse.getCards().get(0));
+        String card2=objectMapper.writeValueAsString(roundCreationResponse.getCards().get(1));
+
+        int a=0;
         for (WebSocketSession session : sessions.keySet()) {
-            session.sendMessage(new TextMessage("Both players joined. The game is starting now!"));
-            session.sendMessage(new TextMessage(jsonResponse));
+            if (a==0) {
+                session.sendMessage(new TextMessage(card1 + jsonResponse));
+                a++;
+            }
+            else {
+                session.sendMessage(new TextMessage(card2 + jsonResponse));
+                a=0;
+            }
         }
     }
 
@@ -200,20 +217,23 @@ public class GameWebSocketHandler extends TextWebSocketHandler
                 String message = "The game has finished. The winner is " + winner + ".";
                 session.sendMessage(new TextMessage(message));
             }
-        } else {
-            // Prepare round results for each player
+        }
+        else {
+            String summary = round.getSummary();
             RoundResult resultForPlayer1 = new RoundResult(
                     player1.getHealth(),
                     player2.getHealth(),
                     damageToPlayer1,
-                    damageToPlayer2
+                    damageToPlayer2,
+                    summary
             );
 
             RoundResult resultForPlayer2 = new RoundResult(
                     player2.getHealth(),
                     player1.getHealth(),
                     damageToPlayer2,
-                    damageToPlayer1
+                    damageToPlayer1,
+                    summary
             );
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -229,12 +249,21 @@ public class GameWebSocketHandler extends TextWebSocketHandler
                 String jsonResponse = objectMapper.writeValueAsString(result);
                 session.sendMessage(new TextMessage(jsonResponse));
             }
-
             // Start the next round
             RoundCreationResponse roundCreationResponse = roundService.createRoundResponse();
-            String jsonResponse = objectMapper.writeValueAsString(roundCreationResponse);
+            String card1=objectMapper.writeValueAsString(roundCreationResponse.getCards().get(0));
+            String card2=objectMapper.writeValueAsString(roundCreationResponse.getCards().get(1));
+            String jsonResponse = objectMapper.writeValueAsString(roundCreationResponse.getEnvironment());
+            int a=0;
             for (WebSocketSession session : sessions.keySet()) {
-                session.sendMessage(new TextMessage(jsonResponse));
+                if (a==0) {
+                    session.sendMessage(new TextMessage(card1 + jsonResponse));
+                    a++;
+                }
+                else {
+                    session.sendMessage(new TextMessage(card2 + jsonResponse));
+                    a=0;
+                }
             }
         }
     }

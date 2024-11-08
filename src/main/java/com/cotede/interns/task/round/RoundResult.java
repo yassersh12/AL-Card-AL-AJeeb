@@ -14,6 +14,7 @@ public class RoundResult {
     private long opponentHealth;
     private long damageYouReceived;
     private long damageYouDealt;
+    private String summary;
 
 
     // Getters and setters (omitted for brevity)

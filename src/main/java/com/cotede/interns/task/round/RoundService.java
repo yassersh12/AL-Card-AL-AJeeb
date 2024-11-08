@@ -35,7 +35,7 @@ public class RoundService {
     private final EnvironmentService environmentService;
     private final UserAttackService userAttackService;
     private RoundCreationResponse currentRound;
-    private Long roundNumber = 1l;
+    private Long roundNumber = 1L;
 
 
     public Round createRound(List<UserResponse> userResponses, Long gameId) throws Exception {
@@ -44,7 +44,7 @@ public class RoundService {
         String prompt = UserUtility.userResponsesToPrompt(userResponses);
         AiEvaluationsResponse evaluationsJsonResponse = openAiService.evaluateResponses(prompt);
         List<AiUserAttack> aiUserAttacks = evaluationsJsonResponse.getAiUserAttacks();
-
+        String summary = evaluationsJsonResponse.getSummary();
         for (int i = 0; i < 2; i++) {
             Card card = currentRound.getCards().get(i);
             UserAttack userAttack = userAttackService.createUserAttack(userResponses.get(i), card, aiUserAttacks.get(i));
@@ -60,6 +60,7 @@ public class RoundService {
                 .userAttacks(userAttacks)
                 .build();
         roundRepository.save(round);
+        round.setSummary(summary);
         return round;
     }
 

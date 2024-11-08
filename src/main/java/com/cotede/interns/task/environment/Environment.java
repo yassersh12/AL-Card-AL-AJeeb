@@ -20,8 +20,4 @@ public class Environment {
     private String fightingPlace;
     private String weather;
 
-    @OneToMany(mappedBy = "environment")
-    private List<Round> rounds;
-
-
 }

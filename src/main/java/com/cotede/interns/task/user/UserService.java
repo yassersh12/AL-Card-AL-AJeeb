@@ -12,8 +12,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public User createUser(User userRequest) {
+        Optional<User> existingUser = userRepository.findByUsername(userRequest.getUsername());
+        if (existingUser.isPresent()) {
+            return existingUser.get();
+        }
+        return userRepository.save(userRequest);
     }
 
     public Optional<User> getUserById(Long userId) {

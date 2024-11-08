@@ -25,6 +25,8 @@ public class Round {
     @Id
     private Long roundNumber;
 
+    private String summary;
+
     @ManyToOne
     @JoinColumn(name = "environment_id")
     private Environment environment;
