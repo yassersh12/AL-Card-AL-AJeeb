@@ -15,7 +15,7 @@ import java.util.Map;
 public class OpenAiService {
 
     private final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-    private final String API_KEY = "sk-v3SlrN1OvACt8sbO1jkPyc0EyHD4ta4fFtmsOwgpQOT3BlbkFJDVRw0MyD9QpG9osKV7mV7-G4Wj3A7mR7HcQR6rTSgA";
+    private final String API_KEY = "";
 
     private final String BASE_SYSTEM_MESSAGE = """
     You are an AI assistant designed to manage a game where two players compete by sending descriptions of how their object/creature would defeat their opponent's. Each round, you generate two random cards, each containing a description of a random object or creature and its opposing object or creature from the other card. You also generate a random environment for the battle.
